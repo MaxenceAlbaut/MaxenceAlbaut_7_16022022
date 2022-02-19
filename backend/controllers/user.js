@@ -2,6 +2,7 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const mysql = require('mysql');
+const { callWithErrorHandling } = require('vue');
 
 
 // Creation de la connection a la bdd mysql
@@ -39,19 +40,30 @@ exports.signup = (req, res, next) => {
         données.
     */
 
-    /*
     bcrypt.hash(req.body.password, 10)
         .then(hash => {
-            const user = new User({
-                email: req.body.email,
-                password: hash
+            let finduser = `SELECT * FROM users WHERE email = \'${req.body.email}\'`;
+            db.query(finduser, function(err, result, field) {
+                if (result.length === 0) { // Si l'utilisateur n'existe pas, on le crer
+
+                    let createUser = `INSERT INTO users (\`prenom\`, \`nom\`, \`email\`, \`password\`)
+                                      VALUES
+                                      ('${req.body.prenom}', '${req.body.nom}', '${req.body.email}', '${hash}')`;
+                    db.query(createUser, err => {
+                        if (err) {
+                            throw err;
+                        }
+                        res.status(201).json({ message : "Utilisateur crer" });
+                    })
+                }
+                else {
+                    res.status(500).json({ error: "Adresse mail deja enregistree" });
+                }
             });
-            user.save()
-                .then(() => res.status(201).json({ message: 'User created' }))
-                .catch(error => res.status(400).json({ error }));
         })
-        .catch(error => res.status(500).json({ error }));
-    */
+        .catch(error => { 
+            res.status(500).json({ error });
+        });
 };
 
 exports.login = (req, res, next) => {
@@ -68,8 +80,6 @@ exports.login = (req, res, next) => {
         (contenant également l'_id
         de l'utilisateur).
     */
-
-    console.log(req.body);
 
     // Cherche l'utilisateur dans la bdd
     let finduser = `SELECT * FROM users WHERE email = \'${req.body.email}\'`;
