@@ -50,8 +50,14 @@ export default {
 <style scoped>
 form {
     background-color: lightblue;
-    border-radius: 10px;
+    border-radius: 10px 10px 0 0;
     width: 40%;
     margin: auto;
+}
+
+label {
+    display: inline-block;
+    margin-top: 20px;
+    font-weight: bold;
 }
 </style>

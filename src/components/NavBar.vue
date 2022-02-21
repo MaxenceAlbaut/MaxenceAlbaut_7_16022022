@@ -1,8 +1,8 @@
 <template>
 
 <div class="navBar">
-    <router-link to="/login"><NavButton text="Connexion"></NavButton></router-link>
-    <router-link to="/signup"><NavButton text="Inscription"></NavButton></router-link>
+    <router-link class="linkContainer" to="/login"><NavButton text="Connexion"></NavButton></router-link>
+    <router-link class="linkContainer" to="/signup"><NavButton text="Inscription"></NavButton></router-link>
 </div>
 
 
@@ -18,10 +18,26 @@ export default {
 </script>
 
 <style scoped>
+
+.linkContainer {
+    width: 45%;
+    text-decoration: none;
+}
+
+.linkContainer:visited {
+    color: #2c3e50;
+    text-decoration: none;
+}
+
 .navBar {
     display: flex;
     justify-content: space-around;
-    border: 2px solid green;
+    align-items: flex-end;
+    box-sizing: border-box;
+    border: 2px solid lightblue;
+    width: 40%;
+    margin: auto;
+    height: 40px;
 }
 
 
