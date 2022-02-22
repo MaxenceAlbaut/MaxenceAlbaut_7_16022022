@@ -4,7 +4,7 @@
     <img alt="Logo Groupomania" src="@/assets/icon.png"/>
     <div class="headerMenu">
         <img alt="user photo" src="@/assets/icon.png" />
-        <div class="userName">
+        <div class="userName" id="userName">
             Prenom Nom
         </div>
         <DcButton></DcButton>
@@ -17,9 +17,40 @@
 
 import DcButton from '@/components/DcButton.vue'
 
+
 export default {
     name: 'PageHeader',
-    components: {DcButton}
+    components: {DcButton},
+    mounted(){
+        let updatedUsername = document.getElementById('userName');
+        let urlParams = window.location.href.split('forum/')[1];
+        let jwt = window.sessionStorage.getItem('jwt');
+        let fetchurl = "http://localhost:4000/api/auth/" + urlParams;
+        console.log("fetching : " + fetchurl);
+
+       
+        fetch(fetchurl, {     // CREATION DE LA REQUETTE A ENVOYER A L'API
+                method: 'GET',
+                mode: 'cors',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${jwt}`
+                }
+            })
+            .then(response => response.json())
+                .then(data => {
+                    // UPDATE LE USERNAME DANS LE HEADER
+                    if (data.response.prenom && data.response.nom) {
+                        let fullname = `${data.response.prenom} ${data.response.nom}`;
+                        updatedUsername.innerHTML = `${fullname}`;
+                    }
+                })
+            .catch(error => {
+                console.log("debug2");
+                this.$router.push({name: 'Login'});
+            });
+           
+    }
 }
 
 </script>
