@@ -14,6 +14,7 @@
 <script>
 import FormButton from '@/components/FormButton.vue';
 
+
 export default {
     name: 'LoginForm',
     components: {FormButton},
@@ -35,6 +36,17 @@ export default {
                 .then(data => {
                     console.log("Response : ", data);
                     // REDIRIGER L'UTILISATEUR VERS LA PAGE FORUM + UTILISER LE TOKEN ?
+                    let sessStorage = window.sessionStorage;
+                    sessStorage.setItem('jwt', `${data.token}`);
+                    console.log(sessStorage.getItem('jwt'));
+                    if (!data.error) { // SI L'utilisateur est bien authentifie : Redirige vers la page forum
+                        this.$router.push({
+                            name: 'Forum',
+                            params: {
+                                id: `${data.userId}`
+                            }
+                        });
+                    }
                 })
             .catch(error => {
                 console.error('Error :', error);
