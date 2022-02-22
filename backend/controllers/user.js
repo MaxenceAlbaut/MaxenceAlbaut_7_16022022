@@ -118,29 +118,34 @@ exports.login = (req, res, next) => {
                 });
         }
     });
+};
+
+exports.getUser = (req, res, next) => {
 
     /*
-    User.findOne({ email: req.body.email })
-        .then(user => {
-            if (!user) {
-                return res.status(401).json({ error: 'User not found' });
-            }
-            bcrypt.compare(req.body.password, user.password)
-                .then(valid => {
-                    if (!valid) {
-                        return res.status(401).json({ error: 'Incorrect password' });
-                    }
-                    res.status(200).json({
-                        userId: user.id,
-                        token: jwt.sign(
-                            { userId: user.id },
-                            'SecretTokenCode',
-                            { expiresIn: '24h' }
-                        )
-                    });
-                })
-                .catch(error => res.status(500).json({ error }));
-        })
-        .catch(error => res.status(500).json({ error }));
+        response : { prenom: string, nom: string }
+
+        Retourne les informations d'un utilisateur.
     */
-};
+
+    console.log(req.params.id);
+    let uId = req.params.id;
+    let getUserQuery = `SELECT * FROM users WHERE id = ${uId}`;
+    db.query(getUserQuery, function(err, result, field) {
+        if (err) {
+            throw err;
+        }
+        if (result.length === 1) {
+            let response = {
+                prenom: `${result[0].prenom}`,
+                nom: `${result[0].nom}`
+            }
+            res.status(200).json({ response });
+        }
+        else {
+            res.status(404).json({ error: "Erreur lors de la requete" });
+        }
+    })
+
+
+}
