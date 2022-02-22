@@ -3,7 +3,7 @@
 <template>
   <router-link to="/login">Connexion</router-link> | 
   <router-link to="/signup">Inscription</router-link> |
-  <router-link to="/forum">Forum</router-link> |
+  <router-link to="/forum/:id">Forum</router-link> |
   <router-link to="/user/username">Profil</router-link>
 
   <div id='view-container'>
