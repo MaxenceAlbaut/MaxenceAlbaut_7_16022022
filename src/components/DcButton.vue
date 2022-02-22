@@ -1,11 +1,18 @@
 <template>
-    <button type="button">Deconexion</button>
+    <button type="button" @click="disconnect">Deconexion</button>
 </template>
 
 <script>
 
 export default {
-    name: 'DcButton'
+    name: 'DcButton',
+    methods: {
+        disconnect(){
+            let sessStorage = window.sessionStorage;
+            sessStorage.removeItem('jwt');
+            this.$router.push({name: 'Login'});
+        }
+    }
 }
 
 </script>
