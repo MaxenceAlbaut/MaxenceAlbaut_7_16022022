@@ -1,7 +1,7 @@
 // Importations
 const express = require('express');
 const userRoutes = require('./routes/user');
-//  const articleRoutes = require('./routes/article');
+const articleRoutes = require('./routes/article');
 
 
 /*
@@ -45,7 +45,7 @@ app.use(express.json());
 app.use('/images', express.static(path.join(__dirname, 'images')));
 
 app.use('/api/auth', userRoutes);
-//  app.use('/api/article', articleRoutes);
+app.use('/api/article', articleRoutes);
 
 
 module.exports = app;
