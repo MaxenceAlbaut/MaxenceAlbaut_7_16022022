@@ -38,13 +38,10 @@ export default {
                     // REDIRIGER L'UTILISATEUR VERS LA PAGE FORUM + UTILISER LE TOKEN ?
                     let sessStorage = window.sessionStorage;
                     sessStorage.setItem('jwt', `${data.token}`);
-                    console.log(sessStorage.getItem('jwt'));
+                    sessStorage.setItem('userId', `${data.userId}`);
                     if (!data.error) { // SI L'utilisateur est bien authentifie : Redirige vers la page forum
                         this.$router.push({
-                            name: 'Forum',
-                            params: {
-                                id: `${data.userId}`
-                            }
+                            name: 'Forum'
                         });
                     }
                 })
