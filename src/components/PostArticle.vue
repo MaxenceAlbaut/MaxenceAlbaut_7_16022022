@@ -2,10 +2,10 @@
 
 <div class="postArticle">
     <div class="PostContentContainer">
-        <input type="text" class="PostArticleContent" placeholder="Redigez votre article ici...">
+        <input type="text" class="PostArticleContent" placeholder="Redigez votre article ici..." ref="content">
         <div class="addImg">Ajouter une image</div>
     </div>
-    <PostArticleButton></PostArticleButton>
+    <PostArticleButton @click="postArticle"></PostArticleButton>
 </div>
 
 </template>
@@ -15,7 +15,40 @@ import PostArticleButton from '@/components/PostArticleButton.vue'
 
 export default {
     name: 'PostArticle',
-    components: {PostArticleButton}
+    components: {PostArticleButton},
+    methods: {
+        postArticle(event) {
+            let jwt = window.sessionStorage.getItem('jwt');
+
+            var post = {    // CREATION DU PAYLOAD A ENVOYER
+                user_id: 1,
+                text_content: this.$refs.content.value,
+                img_path: null
+            };
+            console.log("payload:" + JSON.stringify(post));
+
+            fetch('http://localhost:4000/api/article/', {     // CREATION DE LA REQUETTE A ENVOYER A L'API
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${jwt}`
+                },
+                body: JSON.stringify(post),
+            })
+            .then(response => response.json())
+                .then(data => {
+                    console.log("Response : ", data);
+                    // TODO refresh la page forum ?
+
+                })
+            .catch(error => {
+                console.error('Error :', error);
+            });
+
+
+        }
+    }
+    
 }
 </script>
 
