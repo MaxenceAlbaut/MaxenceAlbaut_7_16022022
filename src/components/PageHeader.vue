@@ -23,9 +23,9 @@ export default {
     components: {DcButton},
     mounted(){
         let updatedUsername = document.getElementById('userName');
-        let urlParams = window.location.href.split('forum/')[1];
+        let userId = window.sessionStorage.getItem('userId');
         let jwt = window.sessionStorage.getItem('jwt');
-        let fetchurl = "http://localhost:4000/api/auth/" + urlParams;
+        let fetchurl = "http://localhost:4000/api/auth/" + userId;
         console.log("fetching : " + fetchurl);
 
        
