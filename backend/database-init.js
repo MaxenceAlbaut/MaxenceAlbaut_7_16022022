@@ -48,12 +48,12 @@ db.query(usedb, err => {
 });
 
 let createUserTable =   `CREATE TABLE users (
-                        id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
+                        u_id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
                         prenom VARCHAR(100) NOT NULL,
                         nom VARCHAR(100) NOT NULL,
                         email VARCHAR(100) NOT NULL UNIQUE,
                         password VARCHAR(100) NOT NULL,
-                        img_path VARCHAR(255)
+                        u_img_path VARCHAR(255)
                         )`;
 db.query(createUserTable, err => {
     if (err) {
@@ -63,10 +63,10 @@ db.query(createUserTable, err => {
 });
 
 let createArticleTable =    `CREATE TABLE articles (
-                            id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
-                            user_id INTEGER NOT NULL,
-                            text_content VARCHAR(2000),
-                            img_path VARCHAR(255) 
+                            a_id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
+                            a_user_id INTEGER NOT NULL,
+                            a_text_content VARCHAR(2000),
+                            a_img_path VARCHAR(255) 
                             )`;
 db.query(createArticleTable, err => {
     if (err) {
@@ -76,10 +76,10 @@ db.query(createArticleTable, err => {
 });
 
 let createCommentTable =    `CREATE TABLE comments (
-    id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    article_id INTEGER NOT NULL,
-    user_id INTEGER NOT NULL,
-    text_content VARCHAR(2000)
+    c_id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    c_article_id INTEGER NOT NULL,
+    c_user_id INTEGER NOT NULL,
+    c_text_content VARCHAR(2000)
     )`;
 db.query(createCommentTable, err => {
     if (err) {
