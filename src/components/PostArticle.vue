@@ -19,9 +19,10 @@ export default {
     methods: {
         postArticle(event) {
             let jwt = window.sessionStorage.getItem('jwt');
+            let userId = window.sessionStorage.getItem('userId');
 
             var post = {    // CREATION DU PAYLOAD A ENVOYER
-                user_id: 1,
+                user_id: userId,
                 text_content: this.$refs.content.value,
                 img_path: null
             };
