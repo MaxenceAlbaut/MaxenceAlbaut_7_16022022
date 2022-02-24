@@ -32,7 +32,7 @@ exports.getAllArticle = (req, res, next) => {
     */
 
 
-    let getArticles = `SELECT * FROM articles`;
+    let getArticles = `SELECT * FROM articles ORDER BY a_id DESC`;
     db.query(getArticles, function(err, result, field) {
         if (err) {
             throw err;
@@ -46,7 +46,7 @@ exports.getOneArticle = (req, res, next) => {
 };
 
 exports.postArticle = (req, res, next) => {
-    let postQuery = `INSERT INTO articles (\`user_id\`, \`text_content\`, \`img_path\`)
+    let postQuery = `INSERT INTO articles (\`a_user_id\`, \`a_text_content\`, \`a_img_path\`)
     VALUES
     ('${req.body.user_id}', '${req.body.text_content}', '${req.body.img_path}')`;
     db.query(postQuery, err => {
