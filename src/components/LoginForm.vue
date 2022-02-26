@@ -2,9 +2,9 @@
 
 <form>
     <label for="email">Email:</label><br>
-    <input type="text" id=email name="email" ref="useremail"><br> 
+    <input type="text" id="email" name="email" ref="useremail"><br> 
     <label for="password">Password:</label><br>
-    <input type="password" id=password name="password" ref="userpassword"><br>
+    <input type="password" id="password" name="password" ref="userpassword"><br>
     <FormButton text="Se connecter" @click="login"></FormButton>
 </form>
 
