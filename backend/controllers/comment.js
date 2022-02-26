@@ -43,10 +43,16 @@ exports.getAllComment = (req, res, next) => {
 
 exports.postComment = (req, res, next) => {
     /*
-
+        Insere un commentaire dans la bdd
     */
 
-    let postQuery = `INSERT INTO comments (\`c_article_id\`, \`c_user_id\`, \`c_text_content\`, \`c_img_path\`)
+    let postQuery = `INSERT INTO comments (\`c_article_id\`, \`c_user_id\`, \`c_text_content\`)
     VALUES
-    ('${req.body.article_id}', '${req.body.user_id}', '${req.body.text_content}', '${req.body.img_path}')`;
+    ('${req.body.article_id}', '${req.body.user_id}', '${req.body.text_content}')`;
+    db.query(postQuery, function(err, result, field) {
+        if (err) {
+            throw err;
+        }
+        res.status(200).json({ message: "OK" });
+    });
 };
