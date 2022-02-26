@@ -22,6 +22,12 @@
                 </div>
             </template>
 
+            <div class="postComment">
+                <input type="text" class="PostCommentContent" placeholder="Redigez votre commentaire ici..." ref="commentcontent">
+                <PostCommmentButton @click="postComment" ref="cbtn"></PostCommmentButton>
+                <div class="invisible">{{article.a_id}}</div>
+            </div>
+
         </div>
 
     </div>
@@ -33,62 +39,90 @@
 </template>
 
 <script>
+import { getCurrentInstance } from "vue";
+import PostCommmentButton from "./PostCommmentButton.vue";
 
 export default {
-    name: 'ActivityFeed',
+    name: "ActivityFeed",
+    components: { PostCommmentButton },
     data() {
         return {
             articles: [],
             comments: []
+        };
+    },
+    methods: {
+        postComment(event) {
+            let jwt = window.sessionStorage.getItem('jwt');
+            let userId = window.sessionStorage.getItem('userId');
+
+            var post = {    // CREATION DU PAYLOAD A ENVOYER
+                user_id: userId,
+                text_content: event.path[0].previousSibling.value,
+                article_id: event.path[0].nextSibling.innerHTML
+            };
+            console.log("payload:" + JSON.stringify(post));
+
+            fetch('http://localhost:4000/api/comment/', {     // CREATION DE LA REQUETTE A ENVOYER A L'API
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${jwt}`
+                },
+                body: JSON.stringify(post),
+            })
+                .then(response => response.json())
+                    .then(data => {
+                        console.log("Response : ", data);
+                        // TODO refresh la page forum ?
+
+                    })
+                .catch(error => {
+                    console.error('Error :', error);
+                });
         }
     },
-    mounted() {
-        let jwt = window.sessionStorage.getItem('jwt');
+    created() {
+        let jwt = window.sessionStorage.getItem("jwt");
         let fetchArticles = "http://localhost:4000/api/article/";
         let fetchComments = "http://localhost:4000/api/comment/";
-
-        fetch(fetchArticles, {     // RECUPERATION DES ARTICLES
-                method: 'GET',
-                mode: 'cors',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${jwt}`
-                }
-            })
+        fetch(fetchArticles, {
+            method: "GET",
+            mode: "cors",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${jwt}`
+            }
+        })
             .then(response => response.json())
-                .then(articles => {
-                    // Met a jour la data de facon reactive
-
-                    //articles.forEach((article) => this.articles.push(article));
-
-                    for (let i = 0 ; i < articles.result.length ; i++) {
-                        this.articles.push(articles.result[i]);
-                    }
-                    console.log(this.articles[0]);
-                })
+            .then(articles => {
+            // Met a jour la data de facon reactive
+            //articles.forEach((article) => this.articles.push(article));
+            for (let i = 0; i < articles.result.length; i++) {
+                this.articles.push(articles.result[i]);
+            }
+        })
             .catch(error => {
-                console.log(error);
-            });
-        fetch(fetchComments, {     // RECUPERATION DES COMMENTAIRES
-                method: 'GET',
-                mode: 'cors',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${jwt}`
-                }
-            })
+            console.log(error);
+        });
+        fetch(fetchComments, {
+            method: "GET",
+            mode: "cors",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${jwt}`
+            }
+        })
             .then(response => response.json())
-                .then(comments => {
-                    // Met a jour la data de facon reactive
-
-                    for (let i = 0 ; i < comments.result.length ; i++) {
-                        this.comments.push(comments.result[i]);
-                    }
-                    console.log(this.comments[0]);
-                })
+            .then(comments => {
+            // Met a jour la data de facon reactive
+            for (let i = 0; i < comments.result.length; i++) {
+                this.comments.push(comments.result[i]);
+            }
+        })
             .catch(error => {
-                console.log(error);
-            });
+            console.log(error);
+        });
     }
 }
 
@@ -174,6 +208,10 @@ export default {
     width: 80%;
     border: 1px solid black;
     text-align: left;
+}
+
+.invisible {
+    display: none;
 }
 
 </style>
