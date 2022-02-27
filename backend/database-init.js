@@ -92,9 +92,9 @@ db.query(createCommentTable, err => {
 bcrypt.hash('adminpassword', 10) // Modifier le mdp admin par defaut ici
     .then(hash => {
         let adminpw = hash;
-        let createAdminUser =   `INSERT INTO users (\`prenom\`, \`nom\`, \`email\`, \`password\`)
+        let createAdminUser =   `INSERT INTO users (\`prenom\`, \`nom\`, \`email\`, \`password\`, \`u_img_path\`)
                         VALUES
-                        ('admin', 'admin', 'admin@groupomania.com', '${adminpw}')
+                        ('admin', 'admin', 'admin@groupomania.com', '${adminpw}', './images/admin.jpeg')
                         `;
         db.query(createAdminUser, err => {
             if (err) {
