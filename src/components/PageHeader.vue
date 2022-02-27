@@ -3,9 +3,9 @@
 <div class="pageHeader">
     <img alt="Logo Groupomania" src="@/assets/icon.png"/>
     <div class="headerMenu">
-        <img alt="user photo" src="@/assets/icon.png" />
-        <div class="userName" id="userName">
-            Prenom Nom
+        <img alt="user photo" :src="userImg" />
+        <div id="userName">
+            {{ fullname }}
         </div>
         <DcButton></DcButton>
     </div>
@@ -21,8 +21,13 @@ import DcButton from '@/components/DcButton.vue'
 export default {
     name: 'PageHeader',
     components: {DcButton},
-    mounted(){
-        let updatedUsername = document.getElementById('userName');
+    data() {
+        return {
+            fullname: String,
+            userImg: String
+        }
+    },
+    created(){
         let userId = window.sessionStorage.getItem('userId');
         let jwt = window.sessionStorage.getItem('jwt');
         let fetchurl = "http://localhost:4000/api/auth/" + userId;
@@ -39,17 +44,14 @@ export default {
             })
             .then(response => response.json())
                 .then(data => {
-                    // UPDATE LE USERNAME DANS LE HEADER
-                    if (data.response.prenom && data.response.nom) {
-                        let fullname = `${data.response.prenom} ${data.response.nom}`;
-                        updatedUsername.innerHTML = `${fullname}`;
-                    }
+                    console.log(data);
+                    this.fullname = `${data.response.prenom} ${data.response.nom}`;
+                    this.userImg = `../backend/${data.response.img}`;
                 })
             .catch(error => {
                 console.log("debug2");
                 this.$router.push({name: 'Login'});
             });
-           
     }
 }
 
