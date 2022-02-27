@@ -2,7 +2,7 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const mysql = require('mysql');
-const { callWithErrorHandling } = require('vue');
+const fs = require('fs');
 
 
 // Creation de la connection a la bdd mysql
@@ -40,30 +40,49 @@ exports.signup = (req, res, next) => {
         données.
     */
 
+    var imgPath = './images/';
+
+    function getNewestFile(files, path) {
+        var out = [];
+        files.forEach(function(file) {
+            var stats = fs.statSync(path + "/" +file);
+            if(stats.isFile()) {
+                out.push({"file":file, "mtime": stats.mtime.getTime()});
+            }
+        });
+        out.sort(function(a,b) {
+            return b.mtime - a.mtime;
+        })
+        return (out.length>0) ? out[0].file : "";
+    }
+
+
     bcrypt.hash(req.body.password, 10)
         .then(hash => {
             let finduser = `SELECT * FROM users WHERE email = \'${req.body.email}\'`;
             db.query(finduser, function(err, result, field) {
                 if (result.length === 0) { // Si l'utilisateur n'existe pas, on le crer
-
-                    let createUser = `INSERT INTO users (\`prenom\`, \`nom\`, \`email\`, \`password\`)
-                                      VALUES
-                                      ('${req.body.prenom}', '${req.body.nom}', '${req.body.email}', '${hash}')`;
-                    db.query(createUser, err => {
+                    fs.readdir(imgPath, function(err, files) { // Recuperation du dernier fichier image enregistre
                         if (err) {
                             throw err;
                         }
-                        res.status(201).json({ message : "Utilisateur crer" });
-                    })
+                        var file = getNewestFile(files, imgPath);
+                        
+                        let createUser = `INSERT INTO users (\`prenom\`, \`nom\`, \`email\`, \`password\`, \`u_img_path\`)
+                                      VALUES
+                                      ('${req.body.prenom}', '${req.body.nom}', '${req.body.email}', '${hash}', '${imgPath+file}')`;
+                        db.query(createUser, err => {
+                            if (err) {
+                                throw err;
+                            }
+                            res.status(201).json({ message : "Utilisateur crer" });
+                        })
+                    });
                 }
-                else {
-                    res.status(500).json({ error: "Adresse mail deja enregistree" });
-                }
+                else { res.status(500).json({ error: "Adresse mail deja enregistree" }); }
             });
         })
-        .catch(error => { 
-            res.status(500).json({ error });
-        });
+        .catch(error => { res.status(500).json({ error }); });
 };
 
 exports.login = (req, res, next) => {
@@ -105,9 +124,9 @@ exports.login = (req, res, next) => {
                         return res.status(401).json({ error: 'Incorrect password' });
                     }
                     res.status(200).json({
-                        userId: result[0].id,
+                        userId: result[0].u_id,
                         token: jwt.sign(
-                            { userId: result[0].id },
+                            { userId: result[0].u_id },
                             'SecretTokenCode',
                             { expiresIn: '24h' }
                         )
@@ -130,7 +149,7 @@ exports.getUser = (req, res, next) => {
 
     console.log(req.params.id);
     let uId = req.params.id;
-    let getUserQuery = `SELECT * FROM users WHERE id = ${uId}`;
+    let getUserQuery = `SELECT * FROM users WHERE u_id = ${uId}`;
     db.query(getUserQuery, function(err, result, field) {
         if (err) {
             throw err;
@@ -138,7 +157,8 @@ exports.getUser = (req, res, next) => {
         if (result.length === 1) {
             let response = {
                 prenom: `${result[0].prenom}`,
-                nom: `${result[0].nom}`
+                nom: `${result[0].nom}`,
+                img: `${result[0].u_img_path}`
             }
             res.status(200).json({ response });
         }
