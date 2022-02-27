@@ -31,7 +31,8 @@ exports.getAllComment = (req, res, next) => {
     */
 
 
-    let getComments = `SELECT * FROM comments`;
+    let getComments = ` SELECT * FROM comments
+                        JOIN users ON comments.c_user_id = users.u_id`;
     db.query(getComments, function(err, result, field) {
         if (err) {
             throw err;
