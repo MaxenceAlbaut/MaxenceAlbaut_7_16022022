@@ -7,8 +7,8 @@
 
 
         <div class="userMiniProfile">
-            <img alt="User Photo" src="@/assets/icon.png"/>
-            <div>{{ article.a_user_id }}</div>
+            <img alt="User Photo" :src="`../backend/${article.u_img_path}`">
+            <div>{{ article.prenom }} {{ article.nom }}</div>
         </div>
 
 
@@ -39,7 +39,6 @@
 </template>
 
 <script>
-import { getCurrentInstance } from "vue";
 import PostCommmentButton from "./PostCommmentButton.vue";
 
 export default {
