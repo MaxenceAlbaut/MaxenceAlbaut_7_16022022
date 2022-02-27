@@ -32,7 +32,10 @@ exports.getAllArticle = (req, res, next) => {
     */
 
 
-    let getArticles = `SELECT * FROM articles ORDER BY a_id DESC`;
+    let getArticles = ` SELECT * FROM articles
+                        JOIN users ON articles.a_user_id = users.u_id
+                        ORDER BY a_id DESC`;
+
     db.query(getArticles, function(err, result, field) {
         if (err) {
             throw err;
