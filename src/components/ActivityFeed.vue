@@ -17,7 +17,7 @@
 
             <template v-for="comment in comments">
                 <div v-if="article.a_id == comment.c_article_id" class="commentContainer">
-                    <div class="userName">{{ comment.c_user_id }}</div>
+                    <div class="userName">{{ comment.prenom }} {{ comment.nom }}</div>
                     <div class="commentContent">{{ comment.c_text_content }}</div>
                 </div>
             </template>
@@ -71,11 +71,7 @@ export default {
                 body: JSON.stringify(post),
             })
                 .then(response => response.json())
-                    .then(data => {
-                        console.log("Response : ", data);
-                        // TODO refresh la page forum ?
-
-                    })
+                    this.$router.go()
                 .catch(error => {
                     console.error('Error :', error);
                 });
@@ -116,6 +112,7 @@ export default {
             .then(comments => {
             // Met a jour la data de facon reactive
             for (let i = 0; i < comments.result.length; i++) {
+                console.log(comments.result[i]);
                 this.comments.push(comments.result[i]);
             }
         })
