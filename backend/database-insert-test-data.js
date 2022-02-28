@@ -25,70 +25,29 @@ db.query(usedb, err => {
     console.log('Utilisation de groupomania');
 });
 
-
-
-
-let insertArticle1 = `INSERT INTO articles (\`a_user_id\`, \`a_text_content\`) VALUES ('1', "Premier article ecrit par l'utilisateur admin")`;
-db.query(insertArticle1, err => {
+let insertArticle = `   INSERT INTO articles (\`a_user_id\`, \`a_text_content\`)
+                        VALUES
+                        ('1', "Premier article ecrit par l'utilisateur admin"),
+                        ('1', "Deuxieme article ecrit par l'utilisateur admin"),
+                        ('2', "Troisieme article ecrit par l'utilisateur numero 2")`;
+db.query(insertArticle, err => {
     if (err) {
         throw err;
     }
-    console.log("Insertion de l'article #1");
+    console.log("Insertion des articles...");
 });
 
-let insertComment1 = `INSERT INTO comments (\`c_article_id\`, \`c_user_id\`, \`c_text_content\`) VALUES ('1', '1', '1er commentaire par admin')`;
-db.query(insertComment1, err => {
+let insertComment = `   INSERT INTO comments (\`c_article_id\`, \`c_user_id\`, \`c_text_content\`)
+                        VALUES
+                            ('1', '1', '1er commentaire par admin'),
+                            ('1', '1', '2e commentaire par admin'),
+                            ('2', '2', '1er commentaire par user 2'),
+                            ('2', '1', '3e commentaire par user admin')`;
+db.query(insertComment, err => {
     if (err) {
         throw err;
     }
-    console.log("Insertion du commentaire #1");
-});
-
-let insertComment2 = `INSERT INTO comments (\`c_article_id\`, \`c_user_id\`, \`c_text_content\`) VALUES ('1', '1', '2e commentaire par admin')`;
-db.query(insertComment2, err => {
-    if (err) {
-        throw err;
-    }
-    console.log("Insertion du commentaire #2");
-});
-
-let insertComment3 = `INSERT INTO comments (\`c_article_id\`, \`c_user_id\`, \`c_text_content\`) VALUES ('2', '2', '1er commentaire par user 2')`;
-db.query(insertComment3, err => {
-    if (err) {
-        throw err;
-    }
-    console.log("Insertion du commentaire #3");
-});
-
-let insertComment4 = `INSERT INTO comments (\`c_article_id\`, \`c_user_id\`, \`c_text_content\`) VALUES ('2', '1', '3e commentaire par user admin')`;
-db.query(insertComment4, err => {
-    if (err) {
-        throw err;
-    }
-    console.log("Insertion du commentaire #4");
-});
-
-
-
-let insertArticle2 = `INSERT INTO articles (\`a_user_id\`, \`a_text_content\`)
-                    VALUES
-                    ('1', "Deuxieme article ecrit par l'utilisateur admin")`;
-db.query(insertArticle2, err => {
-    if (err) {
-        throw err;
-    }
-    console.log("Insertion de l'article #2");
-});
-
-
-
-let insertArticle3 = `INSERT INTO articles (\`a_user_id\`, \`a_text_content\`)
-                    VALUES
-                    ('2', "Troisieme article ecrit par l'utilisateur numero 2")`;
-db.query(insertArticle3, err => {
-    if (err) {
-        throw err;
-    }
-    console.log("Insertion de l'article #3");
+    console.log("Insertion des commentaires...");
     process.exit();
 });
+
