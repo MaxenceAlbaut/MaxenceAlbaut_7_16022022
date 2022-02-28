@@ -75,7 +75,7 @@ exports.signup = (req, res, next) => {
                             if (err) {
                                 throw err;
                             }
-                            res.status(201).json({ message : "Utilisateur crer" });
+                            res.status(201).json({ message : "Utilisateur cree" });
                         })
                     });
                 }
@@ -107,21 +107,15 @@ exports.login = (req, res, next) => {
             throw err;
         }
 
-        if (result.length === 0) {
-            console.log('user NOT FOUND');
-            console.log(result);
-            return res.status(401).json({error: 'USER NOT FOUND'});
+        if (result.length == 0) {
+            return res.status(401).json({message: 'User not found'});
         }
         
-        else if (result.length === 1) {
-            console.log('USER FOUND');
-            console.log(req.body.password);
-            console.log(result[0].password);
-
+        else if (result.length == 1) {
             bcrypt.compare(req.body.password, result[0].password)
                 .then(valid => {
                     if (!valid) {
-                        return res.status(401).json({ error: 'Incorrect password' });
+                        return res.status(401).json({ message: 'Incorrect password' });
                     }
                     res.status(200).json({
                         userId: result[0].u_id,
