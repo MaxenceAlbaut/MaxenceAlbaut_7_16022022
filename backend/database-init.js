@@ -65,8 +65,7 @@ db.query(createUserTable, err => {
 let createArticleTable =    `CREATE TABLE articles (
                             a_id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
                             a_user_id INTEGER NOT NULL,
-                            a_text_content VARCHAR(2000),
-                            a_img_path VARCHAR(255) 
+                            a_text_content VARCHAR(2000)
                             )`;
 db.query(createArticleTable, err => {
     if (err) {
