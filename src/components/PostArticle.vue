@@ -3,7 +3,6 @@
 <div class="postArticle">
     <div class="PostContentContainer">
         <input type="text" class="PostArticleContent" placeholder="Redigez votre article ici..." ref="content">
-        <div class="addImg">Ajouter une image</div>
     </div>
     <PostArticleButton @click="postArticle"></PostArticleButton>
 </div>
@@ -23,10 +22,8 @@ export default {
 
             var post = {    // CREATION DU PAYLOAD A ENVOYER
                 user_id: userId,
-                text_content: this.$refs.content.value,
-                img_path: null
+                text_content: this.$refs.content.value
             };
-            console.log("payload:" + JSON.stringify(post));
 
             fetch('http://localhost:4000/api/article/', {     // CREATION DE LA REQUETTE A ENVOYER A L'API
                 method: 'POST',
@@ -39,7 +36,7 @@ export default {
             .then(response => response.json())
                 .then(data => {
                     console.log("Response : ", data);
-                    // TODO refresh la page forum ?
+                    this.$router.go() // rafraichi la page
 
                 })
             .catch(error => {
