@@ -6,9 +6,10 @@
     <div v-for="article in articles" class="theArticleContainer">
 
 
-        <div class="userMiniProfile">
-            <img alt="User Photo" :src="`../backend/${article.u_img_path}`">
-            <div>{{ article.prenom }} {{ article.nom }}</div>
+        <div class="userMiniProfile" @click="toUser">
+            <div class="invisible">{{article.a_user_id}}</div>
+            <img class="userMiniImg" alt="User Photo" :src="`../backend/${article.u_img_path}`">
+            <div class="userMiniName">{{ article.prenom }} {{ article.nom }}</div>
         </div>
 
 
@@ -76,11 +77,6 @@ export default {
                     this.$router.go()
         },
         deleteArticle (event) {
-            var post = {    // CREATION DU PAYLOAD A ENVOYER
-                user_id: this.userId,
-                article_id: event.path[0].nextSibling.innerHTML
-            };
-
             let url = `http://localhost:4000/api/article/${event.path[0].nextSibling.innerHTML}`;
 
             fetch(url, {     // CREATION DE LA REQUETTE A ENVOYER A L'API
@@ -88,15 +84,22 @@ export default {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${this.jwt}`
-                },
-                body: JSON.stringify(post),
+                }
             })
                 .then(response => response.json())
                     this.$router.go()
+        },
+        toUser (event){
+            
+                let id = event.path[0].firstChild.innerHTML;
+                this.$router.push({
+                    path: `/user/${id}`
+                });
+            
+            
         }
     },
     created() {
-        let jwt = window.sessionStorage.getItem("jwt");
         let fetchArticles = "http://localhost:4000/api/article/";
         let fetchComments = "http://localhost:4000/api/comment/";
         fetch(fetchArticles, {
@@ -104,7 +107,7 @@ export default {
             mode: "cors",
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": `Bearer ${jwt}`
+                "Authorization": `Bearer ${this.jwt}`
             }
         })
             .then(response => response.json())
@@ -123,7 +126,7 @@ export default {
             mode: "cors",
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": `Bearer ${jwt}`
+                "Authorization": `Bearer ${this.jwt}`
             }
         })
             .then(response => response.json())
@@ -185,6 +188,13 @@ export default {
     border: 2px solid purple;
     height: 80px;
     margin: auto 10px auto 10px;
+}
+
+.userMiniProfile:hover {
+    cursor: pointer;
+}
+.userMiniImg, .userMiniName {
+    pointer-events: none;
 }
 
 .userMiniProfile img {
