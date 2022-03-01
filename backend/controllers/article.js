@@ -42,6 +42,19 @@ exports.getAllArticle = (req, res, next) => {
     });
 };
 
+exports.getUserArticle = (req, res, next) => {
+    let getUserArticles = ` SELECT * FROM articles
+                            JOIN users ON articles.a_user_id = users.u_id
+                            WHERE a_user_id=${req.params.userId}
+                            ORDER BY a_id DESC`;
+    db.query(getUserArticles, function(err, result, field) {
+        if (err) {
+            throw err;
+        }
+        res.status(200).json({ result });
+    });
+}
+
 exports.postArticle = (req, res, next) => {
     let postQuery = `   INSERT INTO articles (\`a_user_id\`, \`a_text_content\`)
                         VALUES
@@ -55,22 +68,23 @@ exports.postArticle = (req, res, next) => {
 };
 
 exports.deleteArticle = (req, res, next) => {
-    if (req.body.user_id == 1 || req.body.user_id == req.params.id) { // Double verification avant suppression
-        let deleteComments = `  DELETE FROM comments
-                                WHERE c_article_id=${req.body.article_id}`;
+    console.log("id : "+req.params.id);
 
-        let deleteArticle = `   DELETE FROM articles
-                                WHERE a_id=${req.body.article_id}`
-        db.query(deleteComments, err => {
+    let deleteComments = `  DELETE FROM comments
+                            WHERE c_article_id=${req.params.id}`;
+
+    let deleteArticle = `   DELETE FROM articles
+                            WHERE a_id=${req.params.id}`
+    db.query(deleteComments, err => {
+        if (err) {
+            throw err;
+        }
+        db.query(deleteArticle, err => {
             if (err) {
                 throw err;
             }
-            db.query(deleteArticle, err => {
-                if (err) {
-                    throw err;
-                }
-                res.status(200).json({ message : "Article supprime" });
-            })
+            res.status(200).json({ message : "Article supprime" });
         })
-    }
+    })
 };
+
