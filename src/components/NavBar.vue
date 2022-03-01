@@ -1,7 +1,7 @@
 <template>
 
 <div class="navBar">
-    <router-link class="linkContainer" to="/login"><NavButton text="Connexion"></NavButton></router-link>
+    <router-link class="linkContainer" to="/"><NavButton text="Connexion"></NavButton></router-link>
     <router-link class="linkContainer" to="/signup"><NavButton text="Inscription"></NavButton></router-link>
 </div>
 

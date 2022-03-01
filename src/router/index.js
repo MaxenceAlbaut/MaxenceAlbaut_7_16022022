@@ -6,7 +6,7 @@ import Forum from '@/views/Forum.vue'
 import User from '@/views/User.vue'
 
 const routes = [
-    {path: '/login', name: 'Login', component: Login},
+    {path: '/', name: 'Login', component: Login},
     {path: '/signup', name: 'Signup', component: Signup},
     {path: '/forum', name: 'Forum', component: Forum},
     {path: '/user/:id', name: 'User', component: User}
