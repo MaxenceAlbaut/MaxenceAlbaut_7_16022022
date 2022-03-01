@@ -141,7 +141,6 @@ exports.getUser = (req, res, next) => {
         Retourne les informations d'un utilisateur.
     */
 
-    console.log(req.params.id);
     let uId = req.params.id;
     let getUserQuery = `SELECT * FROM users WHERE u_id = ${uId}`;
     db.query(getUserQuery, function(err, result, field) {
@@ -160,6 +159,30 @@ exports.getUser = (req, res, next) => {
             res.status(404).json({ error: "Erreur lors de la requete" });
         }
     })
+}
 
+exports.deleteUser = (req, res, next) => {
+    let deleteComments = `  DELETE FROM comments
+                            WHERE c_user_id=${req.params.id}`;
 
+    let deleteArticles = `  DELETE FROM articles
+                            WHERE a_user_id=${req.params.id}`
+    let deleteUser = `  DELETE FROM users
+                        WHERE u_id=${req.params.id}`;
+    db.query(deleteComments, err => {
+        if (err) {
+            throw err;
+        }
+        db.query(deleteArticles, err => {
+            if (err) {
+                throw err;
+            }
+            db.query(deleteUser, err => {
+                if (err) {
+                    throw err;
+                }
+                res.status(200).json({ message : "User et son contenu supprime" });
+            })
+        })
+    })
 }
