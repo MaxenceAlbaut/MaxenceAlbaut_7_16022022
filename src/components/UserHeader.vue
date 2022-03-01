@@ -3,6 +3,7 @@
 <div class="userHeader">
     <img alt="Logo Groupomania" src="@/assets/icon.png"/>
     <router-link to="/forum">Forum</router-link>
+    <DeleteUserButton></DeleteUserButton>
     <DcButton></DcButton>
     
 </div>
@@ -11,12 +12,12 @@
 
 <script>
 
-import DcButton from '@/components/DcButton.vue'
-
+import DcButton from '@/components/DcButton.vue' 
+import DeleteUserButton from '@/components/DeleteUserButton.vue'
 
 export default {
     name: 'UserHeader',
-    components: {DcButton}
+    components: {DcButton, DeleteUserButton}
 }
 
 </script>
