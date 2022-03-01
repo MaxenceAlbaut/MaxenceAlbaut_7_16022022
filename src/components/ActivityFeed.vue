@@ -30,6 +30,9 @@
 
         </div>
 
+        <div class="deleteArticle" v-if="(article.u_id == userId) || (userId == 1)" @click="deleteArticle">x</div>
+        <div class="invisible">{{article.a_id}}</div>
+
     </div>
 
 
@@ -47,34 +50,49 @@ export default {
     data() {
         return {
             articles: [],
-            comments: []
+            comments: [],
+            userId: window.sessionStorage.getItem('userId'),
+            jwt: window.sessionStorage.getItem('jwt')
         };
     },
     methods: {
         postComment(event) {
-            let jwt = window.sessionStorage.getItem('jwt');
-            let userId = window.sessionStorage.getItem('userId');
 
             var post = {    // CREATION DU PAYLOAD A ENVOYER
-                user_id: userId,
+                user_id: this.userId,
                 text_content: event.path[0].previousSibling.value,
                 article_id: event.path[0].nextSibling.innerHTML
             };
-            console.log("payload:" + JSON.stringify(post));
 
             fetch('http://localhost:4000/api/comment/', {     // CREATION DE LA REQUETTE A ENVOYER A L'API
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${jwt}`
+                    'Authorization': `Bearer ${this.jwt}`
                 },
                 body: JSON.stringify(post),
             })
                 .then(response => response.json())
                     this.$router.go()
-                .catch(error => {
-                    console.error('Error :', error);
-                });
+        },
+        deleteArticle (event) {
+            var post = {    // CREATION DU PAYLOAD A ENVOYER
+                user_id: this.userId,
+                article_id: event.path[0].nextSibling.innerHTML
+            };
+
+            let url = `http://localhost:4000/api/article/${event.path[0].nextSibling.innerHTML}`;
+
+            fetch(url, {     // CREATION DE LA REQUETTE A ENVOYER A L'API
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${this.jwt}`
+                },
+                body: JSON.stringify(post),
+            })
+                .then(response => response.json())
+                    this.$router.go()
         }
     },
     created() {
@@ -112,7 +130,6 @@ export default {
             .then(comments => {
             // Met a jour la data de facon reactive
             for (let i = 0; i < comments.result.length; i++) {
-                console.log(comments.result[i]);
                 this.comments.push(comments.result[i]);
             }
         })
@@ -210,4 +227,17 @@ export default {
     display: none;
 }
 
+.deleteArticle {
+    width: 15px;
+    height: 15px;
+    border-radius: 3px;
+    background-color: rgb(153, 69, 69);
+    color: black;
+    text-align: center;
+    line-height: 15px;
+}
+
+.deleteArticle:hover {
+    cursor: pointer;
+}
 </style>
