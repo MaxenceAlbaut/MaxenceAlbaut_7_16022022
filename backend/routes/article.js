@@ -5,7 +5,6 @@ const auth = require('../middleware/auth');
 const articleCtrl = require('../controllers/article');
 
 router.get('/', auth, articleCtrl.getAllArticle);
-router.get('/:id', auth, articleCtrl.getOneArticle);
 
 router.post('/', auth, articleCtrl.postArticle);
 
