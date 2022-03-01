@@ -3,10 +3,12 @@
 <div class="pageHeader">
     <img alt="Logo Groupomania" src="@/assets/icon.png"/>
     <div class="headerMenu">
-        <img alt="user photo" :src="userImg" />
-        <div id="userName">
-            {{ fullname }}
+
+        <div class="userContainer" @click="toUser">
+            <img alt="user photo" :src="userImg" />
+            <div id="userName">{{ fullname }}</div>
         </div>
+        
         <DcButton></DcButton>
     </div>
 </div>
@@ -24,15 +26,13 @@ export default {
     data() {
         return {
             fullname: String,
-            userImg: String
+            userImg: String,
+            userId: window.sessionStorage.getItem('userId')
         }
     },
     created(){
-        let userId = window.sessionStorage.getItem('userId');
         let jwt = window.sessionStorage.getItem('jwt');
-        let fetchurl = "http://localhost:4000/api/auth/" + userId;
-        console.log("fetching : " + fetchurl);
-
+        let fetchurl = "http://localhost:4000/api/auth/" + this.userId;
        
         fetch(fetchurl, {     // CREATION DE LA REQUETTE A ENVOYER A L'API
                 method: 'GET',
@@ -49,9 +49,15 @@ export default {
                     this.userImg = `../backend/${data.response.img}`;
                 })
             .catch(error => {
-                console.log("debug2");
                 this.$router.push({name: 'Login'});
             });
+    },
+    methods: {
+        toUser (event){
+            this.$router.push({
+                path: `/user/${this.userId}`
+            });
+        }
     }
 }
 
