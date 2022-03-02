@@ -21,9 +21,7 @@
     <FormButton text="S'inscrire" @click="signup"></FormButton>
 </form>
 
-
 </template>
-
 
 
 <script>
@@ -78,8 +76,6 @@ export default {
                 postFormData.append('password', this.$refs.userpassword.value);
                 postFormData.append('file', this.$refs.userimg.files[0]);
 
-                
-                console.log("payload:" + postFormData);
                 fetch('http://localhost:4000/api/auth/signup', {     // CREATION DE LA REQUETTE A ENVOYER A L'API
                     method: 'POST',
                     body: postFormData
@@ -100,35 +96,4 @@ export default {
         }
     }
 }
-
 </script>
-
-
-
-<style scoped>
-form {
-    background-color: lightblue;
-    border-radius: 10px 10px 0 0;
-    width: 40%;
-    margin: auto;
-}
-
-label {
-    display: inline-block;
-    margin-top: 20px;
-    font-weight: bold;
-}
-
-.input-file{
-    margin: auto;
-}
-
-.errormsg {
-    color: black;
-    margin: 10px auto 0 auto;
-    width: 40%;
-    background-color: rgb(255, 184, 184);
-    border: 2px solid rgb(90, 0, 0)
-}
-
-</style>
