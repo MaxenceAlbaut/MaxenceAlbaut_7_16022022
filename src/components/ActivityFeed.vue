@@ -16,22 +16,29 @@
         <div class="theArticleContent">
             <div class="content">{{ article.a_text_content }}</div>
 
-            <template v-for="comment in comments">
-                <div v-if="article.a_id == comment.c_article_id" class="commentContainer">
-                    <div class="userName">{{ comment.prenom }} {{ comment.nom }}</div>
-                    <div class="commentContent">{{ comment.c_text_content }}</div>
-                </div>
-            </template>
+
+            <div class="comments">
+                <template v-for="comment in comments">
+                    <div v-if="article.a_id == comment.c_article_id" class="commentContainer">
+                        <div class="userName">{{ comment.prenom }} {{ comment.nom }}</div>
+                        <div class="commentContent">{{ comment.c_text_content }}</div>
+                        <div class="delete" v-if="(comment.c_user_id == userId) || (userId == 1)" @click="deleteComment">x</div>
+                        <div class="invisible">{{comment.c_id}}</div>
+                    </div>
+                </template>
+            </div>
+
+            
 
             <div class="postComment">
-                <input type="text" class="PostCommentContent" placeholder="Redigez votre commentaire ici..." ref="commentcontent">
+                <textarea class="postCommentContent" placeholder="Redigez votre commentaire ici..." ref="commentcontent"></textarea>
                 <PostCommmentButton @click="postComment" ref="cbtn"></PostCommmentButton>
                 <div class="invisible">{{article.a_id}}</div>
             </div>
 
         </div>
 
-        <div class="deleteArticle" v-if="(article.u_id == userId) || (userId == 1)" @click="deleteArticle">x</div>
+        <div class="delete" v-if="(article.u_id == userId) || (userId == 1)" @click="deleteArticle">x</div>
         <div class="invisible">{{article.a_id}}</div>
 
     </div>
@@ -58,26 +65,40 @@ export default {
     },
     methods: {
         postComment(event) {
+            if (event.path[0].previousSibling.value) {
+                var post = {    // CREATION DU PAYLOAD A ENVOYER
+                    user_id: this.userId,
+                    text_content: event.path[0].previousSibling.value,
+                    article_id: event.path[0].nextSibling.innerHTML
+                };
 
-            var post = {    // CREATION DU PAYLOAD A ENVOYER
-                user_id: this.userId,
-                text_content: event.path[0].previousSibling.value,
-                article_id: event.path[0].nextSibling.innerHTML
-            };
+                fetch('http://localhost:4000/api/comment/', {     // CREATION DE LA REQUETTE A ENVOYER A L'API
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${this.jwt}`
+                    },
+                    body: JSON.stringify(post),
+                })
+                    .then(response => response.json())
+                        this.$router.go()
+                }
+        },
+        deleteArticle (event) {
+            let url = `http://localhost:4000/api/article/${event.path[0].nextSibling.innerHTML}`;
 
-            fetch('http://localhost:4000/api/comment/', {     // CREATION DE LA REQUETTE A ENVOYER A L'API
-                method: 'POST',
+            fetch(url, {     // CREATION DE LA REQUETTE A ENVOYER A L'API
+                method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${this.jwt}`
-                },
-                body: JSON.stringify(post),
+                }
             })
                 .then(response => response.json())
                     this.$router.go()
         },
-        deleteArticle (event) {
-            let url = `http://localhost:4000/api/article/${event.path[0].nextSibling.innerHTML}`;
+        deleteComment (event) { 
+            let url = `http://localhost:4000/api/comment/${event.path[0].nextSibling.innerHTML}`;
 
             fetch(url, {     // CREATION DE LA REQUETTE A ENVOYER A L'API
                 method: 'DELETE',
@@ -151,16 +172,21 @@ export default {
 <style scoped>
 
 .activityFeedContainer {
-    width: 90%;
-    border: 2px solid red;
-    margin: 30px auto 30px auto;
+    width: 96%;
+    border: 1px solid rgb(184, 184, 184);
+    margin: 20px auto auto auto;
+    border-radius: 6px;
+    box-shadow: 0 2px 10px -6px rgb(105, 105, 105);
+    background-color: rgb(241, 251, 255);
 }
 
 .theArticleContainer {
     display: flex;
     justify-content: space-between;
-    border: 4px solid green;
-    margin: 10px;
+    border: 1px solid rgb(184, 184, 184);
+    box-shadow: 0 2px 10px -6px rgb(105, 105, 105);
+    background-color: rgb(246, 246, 246);
+    margin: 20px;
     padding: 10px;
 }
 
@@ -169,15 +195,20 @@ export default {
     flex-direction: column;
     align-items: center;
     justify-content: space-around;
-    border: 1px solid white;
+    border-left: 2px solid white;
     margin: 3px;
     width: 80%; 
+    white-space: pre-wrap;
 }
 
 .content {
-    border: 1px solid black;
-    width: 95%;
+    background-color: white;
+    width: 96%;
     margin-bottom: 10px;
+    text-align: left;
+    border-radius: 10px;
+    padding: 6px 4px 4px 6px;
+    box-shadow: inset 0 0 4px grey;
 }
 
 .userMiniProfile {
@@ -185,13 +216,20 @@ export default {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    border: 2px solid purple;
-    height: 80px;
+    background-color: white;
+    box-shadow: inset 0 0 4px grey;
+    height: 100px;
+    width: 15%;
     margin: auto 10px auto 10px;
+    font-size: 18px;
+    padding: 10px;
 }
 
 .userMiniProfile:hover {
     cursor: pointer;
+    transform: scale(1.05);
+    transition-duration: 0.1s;
+
 }
 .userMiniImg, .userMiniName {
     pointer-events: none;
@@ -202,52 +240,81 @@ export default {
     width: 40px;
     border-radius: 50%;
     margin-bottom: 10px;
+    border: 1px solid rgb(184, 184, 184);
 }
 
-.commentSection {
+.comments {
     display: flex;
     flex-direction: column;
-    border: 1px solid black;
-    width: 90%;
-    margin-left: 5%;
+    width: 96%;
 }
 
 .commentContainer {
     display: flex;
-
+    box-shadow: 0 0 10px 1px grey;
+    padding: 4px;
+    border-radius: 5px;
     justify-content: space-around;
+    align-items: center;
     margin: 10px 0 10px 0;
-    border: 1px solid red;
-    width: 90%;
+    width: 96%;
 }
 
 .userName {
     display: flex;
     margin: auto;
-    border: 1px solid black;
+    width: 20%;
+    margin-right: 10px;
 }
 
 .commentContent {
     width: 80%;
-    border: 1px solid black;
     text-align: left;
+    border-radius: 10px;
+    padding: 6px 4px 4px 6px;
+    text-overflow: wrap;
+    overflow-wrap: break-word;
+    box-shadow: inset 0 0 4px grey;
+}
+
+.postComment {
+    display: flex;
+    width: 96%;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.postCommentContent {
+    margin-top: 10px;
+    border-radius: 10px;
+    border: 1px solid rgb(184, 184, 184);
+    background-color: rgb(255, 255, 255);
+    height: 60px;
+    width: 80%;
+    min-width: 340px;
+    text-overflow: wrap;
+    overflow-wrap: break-word;
+    padding: 6px 4px 4px 6px;
 }
 
 .invisible {
     display: none;
 }
 
-.deleteArticle {
+.delete {
     width: 15px;
     height: 15px;
     border-radius: 3px;
-    background-color: rgb(153, 69, 69);
+    background-color: rgb(209, 209, 209);
+    border: 1px solid black;
     color: black;
     text-align: center;
     line-height: 15px;
+    margin-left: 4px
 }
 
-.deleteArticle:hover {
+.delete:hover {
     cursor: pointer;
+    background-color: rgb(153, 69, 69);;
 }
 </style>
