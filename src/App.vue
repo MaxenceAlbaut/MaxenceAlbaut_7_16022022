@@ -1,11 +1,4 @@
-
-
 <template>
-  <router-link to="/">Connexion</router-link> | 
-  <router-link to="/signup">Inscription</router-link> |
-  <router-link to="/forum">Forum</router-link> |
-  <router-link to="/user/:id">Profil</router-link>
-
   <div id='view-container'>
     <router-view></router-view>
   </div>
@@ -26,14 +19,10 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
-  margin: 40px 0 0 0;
-  border: 3px solid red;
+  color: black;
 }
 
 #view-container {
   width: 100%;
-  border: 2px solid blue;
-  background-color: silver;
 }
 </style>
