@@ -3,12 +3,10 @@
 <div class="pageHeader">
     <img alt="Logo Groupomania" src="@/assets/icon.png"/>
     <div class="headerMenu">
-
         <div class="userContainer" @click="toUser">
             <img alt="user photo" :src="userImg" />
             <div id="userName">{{ fullname }}</div>
         </div>
-        
         <DcButton></DcButton>
     </div>
 </div>
@@ -67,26 +65,41 @@ export default {
 .pageHeader {
     display: flex;
     justify-content: space-between;
-    height: 80px;
-    border: 2px solid darkgreen;
-    margin-bottom: 30px;
+    height: 70px;
+    margin-bottom: 24px;
 }
 img {
     height: 80px;
     width: 80px;
 }
 .headerMenu {
-    background-color: lightgreen;
-    width: 30%;
+    background-color: lightblue;
+    width: 40%;
     min-width: 250px;
+    border-radius: 0 0 0 10px;
     display: flex;
     justify-content: space-around;
     align-items: center;
-
+    box-shadow: 0 0 10px 1px #2c3e50;
 }
 .headerMenu img {
-    height: 60px;
-    width: 60px;
+    height: 40px;
+    width: 40px;
     border-radius: 50%;
+    margin-right: 10px;
+    border: 2px solid #2c3e50;
+}
+
+.userContainer {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    margin: 0 10px 0 10px;
+}
+
+.userContainer:hover {
+    cursor: pointer;
+    transform: scale(1.1);
+    transition-duration: 0.1s;
 }
 </style>

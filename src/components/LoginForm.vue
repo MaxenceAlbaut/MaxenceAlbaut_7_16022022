@@ -73,10 +73,12 @@ export default {
 
 
 
-<style scoped>
+<style>
 form {
     background-color: lightblue;
     border-radius: 10px 10px 0 0;
+    min-width: 330px;
+    max-width: 900px;
     width: 40%;
     margin: auto;
 }

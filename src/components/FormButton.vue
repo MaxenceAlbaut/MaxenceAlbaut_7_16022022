@@ -29,6 +29,12 @@ button {
     margin: 20px 0 20px 0;
     border-radius: 15px;
     border: none;
-
 }
+
+button:hover {
+    cursor: pointer;
+    transform: scale(1.1);
+    transition-duration: 0.1s;
+}
+
 </style>
