@@ -1,7 +1,5 @@
 <template>
     <div class="login">
-        <h1>Login</h1>
-        <br>
         <img alt="Groupomania logo" src="../assets/icon-above-font.png" />
         <LoginForm></LoginForm>
         <NavBar></NavBar>
@@ -18,11 +16,11 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 
 img {
-    width: 200px;
-    height: 200px;
+    width: 350px;
+    height: 350px;
 }
 
 </style>

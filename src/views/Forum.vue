@@ -1,10 +1,10 @@
 <template>
     <div class="forum">
-        <h1>Forum</h1>
         <PageHeader></PageHeader>
+        <h2>Poster un article</h2>
         <PostArticle></PostArticle>
+        <h2>Dernieres publications</h2>
         <ActivityFeed></ActivityFeed>
-
     </div>
 </template>
 
@@ -21,4 +21,8 @@ export default {
 </script>
 
 <style scoped>
+
+h2 {
+    color: rgb(100, 100, 100);
+}
 </style>
