@@ -56,3 +56,17 @@ exports.postComment = (req, res, next) => {
         res.status(200).json({ message: "OK" });
     });
 };
+
+exports.deleteComment = (req, res, next) => {
+    console.log("id : "+req.params.id);
+
+    let deleteComments = `  DELETE FROM comments
+                            WHERE c_id=${req.params.id}`;
+
+    db.query(deleteComments, err => {
+        if (err) {
+            throw err;
+        }
+        res.status(200).json({ message : "Article supprime" });
+    })
+};
