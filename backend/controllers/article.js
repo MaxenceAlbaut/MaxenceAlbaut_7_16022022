@@ -58,7 +58,7 @@ exports.getUserArticle = (req, res, next) => {
 exports.postArticle = (req, res, next) => {
     let postQuery = `   INSERT INTO articles (\`a_user_id\`, \`a_text_content\`)
                         VALUES
-                        ('${req.body.user_id}', '${req.body.text_content}')`;
+                        ('${req.body.user_id}', "${req.body.text_content}")`;
     db.query(postQuery, err => {
         if (err) {
             throw err;

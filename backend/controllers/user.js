@@ -70,7 +70,7 @@ exports.signup = (req, res, next) => {
                         
                         let createUser = `INSERT INTO users (\`prenom\`, \`nom\`, \`email\`, \`password\`, \`u_img_path\`)
                                       VALUES
-                                      ('${req.body.prenom}', '${req.body.nom}', '${req.body.email}', '${hash}', '${imgPath+file}')`;
+                                      ("${req.body.prenom}", "${req.body.nom}", '${req.body.email}', '${hash}', "${imgPath+file}")`;
                         db.query(createUser, err => {
                             if (err) {
                                 throw err;
