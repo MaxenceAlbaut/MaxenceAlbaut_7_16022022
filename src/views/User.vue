@@ -1,6 +1,5 @@
 <template>
     <div class="user">
-        <h1>User</h1>
         <UserHeader> </UserHeader>
         <div class="userProfile">
             <img alt="user photo" :src="userImg" />
@@ -14,7 +13,6 @@
 <script>
 import UserHeader from '@/components/UserHeader.vue';
 import UserArticles from '@/components/UserArticles.vue';
-
 
 export default {
     name: 'PageHeader',
@@ -53,9 +51,6 @@ export default {
             });
     }
 }
-
-
-
 </script>
 
 <style scoped>
