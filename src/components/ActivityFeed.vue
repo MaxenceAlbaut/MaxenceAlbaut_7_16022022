@@ -198,7 +198,8 @@ export default {
     border-left: 2px solid white;
     margin: 3px;
     width: 80%; 
-    white-space: pre-wrap;
+    text-overflow: wrap;
+    overflow-wrap: break-word;
 }
 
 .content {
