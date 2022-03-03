@@ -257,4 +257,24 @@ export default {
     cursor: pointer;
     background-color: rgb(153, 69, 69);;
 }
+
+@media (max-device-width: 660px) {
+    .commentContainer {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        margin-left: 6px;
+    }
+    .userName {
+        width: 100%;
+        margin-bottom: 4px;
+    }
+    
+    .commentContainer .delete {
+        margin-top: 6px;
+        align-self: flex-end;
+    }
+}
+
 </style>

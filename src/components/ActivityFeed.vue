@@ -286,13 +286,12 @@ export default {
 }
 
 .postCommentContent {
-    margin-top: 10px;
+    margin: 10px 10px 0 0;
     border-radius: 10px;
     border: 1px solid rgb(184, 184, 184);
     background-color: rgb(255, 255, 255);
     height: 60px;
     width: 80%;
-    min-width: 340px;
     text-overflow: wrap;
     overflow-wrap: break-word;
     padding: 6px 4px 4px 6px;
@@ -318,4 +317,41 @@ export default {
     cursor: pointer;
     background-color: rgb(153, 69, 69);;
 }
+
+@media (max-device-width: 660px) {
+
+    .activityFeedContainer {
+        width: 100%;
+        border-left: none;
+        border-right: none;
+        border-radius: 0;
+    }
+    .commentContainer {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        margin-left: 6px;
+    }
+    .userName {
+        width: 100%;
+        margin-bottom: 4px;
+    }
+
+    .postComment {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .postCommentContent {
+        width: 96%;
+        margin: 10px 10px 0 5%;
+    }
+    
+    .commentContainer .delete {
+        margin-top: 6px;
+        align-self: flex-end;
+    }
+}
+
 </style>

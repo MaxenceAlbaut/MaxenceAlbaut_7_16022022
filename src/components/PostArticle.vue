@@ -83,4 +83,14 @@ export default {
     padding-top: 20px;
 }
 
+@media (max-device-width: 660px) {
+
+    .postArticle {
+        width: 100%;
+        border-left: none;
+        border-right: none;
+        border-radius: 0;
+    }
+}
+
 </style>

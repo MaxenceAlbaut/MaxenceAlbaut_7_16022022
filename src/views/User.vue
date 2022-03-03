@@ -54,4 +54,22 @@ export default {
 </script>
 
 <style scoped>
+.userProfile {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color: lightblue;
+}
+
+img {
+    width: 30%;
+    border-radius: 30px;
+    margin: 20px 0 20px 0;
+}
+
+.username {
+    font-size: 46px;
+    width: 30%;
+}
+
 </style>
