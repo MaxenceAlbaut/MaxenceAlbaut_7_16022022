@@ -4,19 +4,27 @@ Projet de reseau social d'entreprise
 
 ## Pre-requis
 
--  NodeJs (https://nodejs.org/)
+-  NodeJs (v16+) (https://nodejs.org/)
 
 ## Installation
 
     $ git clone https://github.com/MaxenceAlbaut/MaxenceAlbaut_7_16022022.git
     $ cd MaxenceAlbaut_7_16022022
     $ npm install
+    $ cd backend
+    $ npm install
 
 ## Configuration
 
-Go to  `/backend/database-init.js`
+Dans le fichier `/backend/database-init.js`
 
-- Configurer le mot de passe admin a la fin du fichier
+- Configurer le mot de passe pour l'utilisateur 'root' lors de la connection a mysql
+- Configurer le mot de passe de la session admin a la fin du fichier
+
+Dans les fichers `/backend/controllers/*`
+
+- Configurer le mot de passe pour l'utilisateur 'root' lors de la connection a mysql
+
 
 ## Executer le projet
 
