@@ -5,6 +5,7 @@ Projet de reseau social d'entreprise
 ## Pre-requis
 
 -  NodeJs (v16+) (https://nodejs.org/)
+-  mysql-server
 
 ## Installation
 
