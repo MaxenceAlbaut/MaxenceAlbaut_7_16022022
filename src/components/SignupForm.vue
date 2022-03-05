@@ -82,7 +82,6 @@ export default {
                 })
                 .then(response => response.json())
                     .then(data => {
-                        console.log("Response : ", data);
                         if (data.message == 'Utilisateur cree') {
                                 this.$router.push({
                                 name: 'Login'

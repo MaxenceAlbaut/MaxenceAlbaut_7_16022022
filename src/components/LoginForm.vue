@@ -32,7 +32,6 @@ export default {
                 email: this.$refs.useremail.value,
                 password: this.$refs.userpassword.value
             };
-            console.log("payload:" + JSON.stringify(post));
             fetch('http://localhost:4000/api/auth/login', {     // CREATION DE LA REQUETTE A ENVOYER A L'API
                 method: 'POST',
                 headers: {
@@ -42,8 +41,6 @@ export default {
             })
             .then(response => response.json())
                 .then(data => {
-                    console.log("Response : ", data);
-                    // REDIRIGER L'UTILISATEUR VERS LA PAGE FORUM + UTILISER LE TOKEN ?
                     let sessStorage = window.sessionStorage;
                     sessStorage.setItem('jwt', `${data.token}`);
                     sessStorage.setItem('userId', `${data.userId}`);
