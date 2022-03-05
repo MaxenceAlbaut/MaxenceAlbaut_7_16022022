@@ -17,15 +17,13 @@ Projet de reseau social d'entreprise
 
 ## Configuration
 
+Dans le ficher `/backend/db.js`
+
+- Configurer le mot de passe pour l'utilisateur 'root' lors de la connection a mysql
+
 Dans le fichier `/backend/database-init.js`
 
-- Configurer le mot de passe pour l'utilisateur 'root' lors de la connection a mysql
-- Configurer le mot de passe de la session admin a la fin du fichier
-
-Dans les fichers `/backend/controllers/*`
-
-- Configurer le mot de passe pour l'utilisateur 'root' lors de la connection a mysql
-
+- Configurer le mot de passe de l'utilisateur admin a la fin du fichier
 
 ## Executer le projet
 
