@@ -36,7 +36,6 @@ exports.postComment = (req, res, next) => {
 };
 
 exports.deleteComment = (req, res, next) => {
-    console.log("id : "+req.params.id);
 
     let deleteComments = `  DELETE FROM comments
                             WHERE c_id=${req.params.id}`;
