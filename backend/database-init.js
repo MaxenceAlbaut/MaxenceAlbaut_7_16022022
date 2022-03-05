@@ -1,22 +1,5 @@
-const mysql = require('mysql');
+const db = require('./db');
 const bcrypt = require('bcrypt');
-
-// Creation de la connection a la bdd mysql
-const db = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: 'qwertyui' // insert root password here
-});
-
-// Connexion a mysql
-db.connect(err => {
-    if (err) {
-        throw err;
-    }
-    else {
-        console.log('Connexion a mysql reussie');
-    }
-});
 
 let dropdb = "DROP DATABASE IF EXISTS groupomania";
 db.query(dropdb, err => {
@@ -28,7 +11,6 @@ db.query(dropdb, err => {
     }
 })
 
-
 let createdb = "CREATE DATABASE groupomania";
 db.query(createdb, err => {
     if (err) {
@@ -36,8 +18,6 @@ db.query(createdb, err => {
     }
     console.log("Creation de la bdd groupomania");
 });
-
-
 
 let usedb = 'use groupomania';
 db.query(usedb, err => {
