@@ -1,33 +1,7 @@
-// const User = require('../models/User');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const mysql = require('mysql');
 const fs = require('fs');
-
-
-// Creation de la connection a la bdd mysql
-const db = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: 'qwertyui'
-});
-
-// Connexion a mysql
-db.connect(err => {
-    if (err) {
-        throw err;
-    }
-    console.log('Connexion a mysql reussie');
-});
-
-db.query('USE groupomania', err => {
-    if (err) {
-        throw err;
-    }
-    console.log('Utilisation de la bdd groupomania');
-});
-
-
+const db = require('../db');
 
 exports.signup = (req, res, next) => {
 
@@ -55,7 +29,6 @@ exports.signup = (req, res, next) => {
         })
         return (out.length>0) ? out[0].file : "";
     }
-
 
     bcrypt.hash(req.body.password, 10)
         .then(hash => {
