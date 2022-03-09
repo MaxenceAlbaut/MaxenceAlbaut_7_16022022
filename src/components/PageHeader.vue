@@ -1,7 +1,7 @@
 <template>
 
 <div class="pageHeader">
-    <img alt="Logo Groupomania" src="@/assets/icon.png"/>
+    <img alt="Logo Groupomania" src="../assets/icon.png"/>
     <div class="headerMenu">
         <div class="userContainer" @click="toUser">
             <img alt="user photo" :src="userImg" />
