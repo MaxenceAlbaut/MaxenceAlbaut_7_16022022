@@ -1,7 +1,7 @@
 <template>
 
 <div class="userHeader">
-    <img alt="Logo Groupomania" src="@/assets/icon.png"/>
+    <img alt="Logo Groupomania" src="../assets/icon.png"/>
     <router-link to="/forum">Forum</router-link>
     <DcButton></DcButton>
     <DeleteUserButton></DeleteUserButton>
